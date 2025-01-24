@@ -18,3 +18,4 @@ $ifconfig eno1 up
 $nslookup google.com
 
 #ques 8
+$tracepath
