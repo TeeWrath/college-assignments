@@ -1,52 +1,50 @@
+x1_samples = input('Enter the samples of x1[n]: ');
+x1_zero_index = input('Enter the position of n=0 for x1[n] (index): ');
 
-x1 = input('Enter the samples of x1[n]: ');
-n1_zero = input('Enter the position of n=0 for x1[n] (index): ');
+x2_samples = input('Enter the samples of x2[n]: ');
+x2_zero_index = input('Enter the position of n=0 for x2[n] (index): ');
 
-x2 = input('Enter the samples of x2[n]: ');
-n2_zero = input('Enter the position of n=0 for x2[n] (index): ');
+x1_n_values = (1:length(x1_samples)) - x1_zero_index;
+x2_n_values = (1:length(x2_samples)) - x2_zero_index;
 
-n1 = (1:length(x1)) - n1_zero;
-n2 = (1:length(x2)) - n2_zero;
+common_n_range = min(min(x1_n_values), min(x2_n_values)) : max(max(x1_n_values), max(x2_n_values));
 
-n_common = min(min(n1), min(n2)) : max(max(n1), max(n2));
+x1_aligned = zeros(1, length(common_n_range));
+x2_aligned = zeros(1, length(common_n_range));
 
-x1_common = zeros(1, length(n_common));
-x2_common = zeros(1, length(n_common));
-
-x1_common(ismember(n_common, n1)) = x1;
-
-x2_common(ismember(n_common, n2)) = x2;
+x1_aligned(ismember(common_n_range, x1_n_values)) = x1_samples;
+x2_aligned(ismember(common_n_range, x2_n_values)) = x2_samples;
 
 figure;
 subplot(3, 2, 1);
-stem(n1, x1, 'r', 'LineWidth', 1.5); grid on;
+stem(x1_n_values, x1_samples, 'r', 'LineWidth', 1.5); grid on;
 xlabel('n'); ylabel('x1[n]');
 title('Sequence x1[n]');
 
 subplot(3, 2, 2);
-stem(n2, x2, 'b', 'LineWidth', 1.5); grid on;
+stem(x2_n_values, x2_samples, 'b', 'LineWidth', 1.5); grid on;
 xlabel('n'); ylabel('x2[n]');
 title('Sequence x2[n]');
 
 % Operations
-y1 = x1_common + x2_common;
-y2 = x1_common - x2_common;
-y3 = x1_common .* x2_common;
+sum_sequence = x1_aligned + x2_aligned;
+difference_sequence = x1_aligned - x2_aligned;
+product_sequence = x1_aligned .* x2_aligned;
 
-% Plot y1[n]
+% Plot sum_sequence[n]
 subplot(3, 2, 3);
-stem(n_common, y1, 'm', 'LineWidth', 1.5); grid on;
-xlabel('n'); ylabel('y1[n]');
-title('y1[n] = x1[n] + x2[n]');
+stem(common_n_range, sum_sequence, 'm', 'LineWidth', 1.5); grid on;
+xlabel('n'); ylabel('Sum');
+title('Sum: x1[n] + x2[n]');
 
-% Plot y2[n]
+% Plot difference_sequence[n]
 subplot(3, 2, 4);
-stem(n_common, y2, 'g', 'LineWidth', 1.5); grid on;
-xlabel('n'); ylabel('y2[n]');
-title('y2[n] = x1[n] - x2[n]');
+stem(common_n_range, difference_sequence, 'g', 'LineWidth', 1.5); grid on;
+xlabel('n'); ylabel('Difference');
+title('Difference: x1[n] - x2[n]');
 
-% Plot y3[n]
+% Plot product_sequence[n]
 subplot(3, 2, 5);
-stem(n_common, y3, 'k', 'LineWidth', 1.5); grid on;
-xlabel('n'); ylabel('y3[n]');
-title('y3[n] = x1[n] .* x2[n]');
+stem(common_n_range, product_sequence, 'k', 'LineWidth', 1.5); grid on;
+xlabel('n'); ylabel('Product');
+title('Product: x1[n] .* x2[n]');
